@@ -1,15 +1,46 @@
 require("dotenv").config();
 const keys = require('./keys');
-const spotify = new Spotify(keys.spotify);
+const axios = require('axios');
+const moment = require('moment');
+// const spotify = new Spotify(keys.spotify);
 
 const command = process.argv[2];
-const query = process.argv[3];
+const query = process.argv.slice(3).join(" ");
 
-console.log(command);
-console.log(query);
 
+search(command, query);
+
+function search(command, query) {
+    switch (command) {
+        case "concert-this":
+            concert(query);
+            break;
+        case "spotify-this-song":
+            spotifyThisSong(query);
+            break;
+        case "movie-this":
+            movie(query);
+            break;
+        case "do-what-it-says":
+            console.log("do it");
+            break;
+    }
+};
+
+function concert(query) {
+    //add error handling
+    let concertLink = "https://rest.bandsintown.com/artists/" + query + "/events?app_id=codingbootcamp";
+    axios.get(concertLink).then((response) => {
+        console.log(`
+        ${query.toUpperCase()} 
+        is playing at: ${response.data[0].venue.name}, ${response.data[0].venue.city}, ${response.data[0].venue.region} 
+        on: ${moment(response.data[0].datetime).format('MM/DD/YYYY')}`);
+        console.log(response.data[0].datetime);
+    });
+
+}
 // concert-this
-// "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp"
+// 
 // Name of the venue
 // Venue location
 // Date of the Event (use moment to format this as "MM/DD/YYYY")
