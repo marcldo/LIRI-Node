@@ -30,7 +30,7 @@ function search(command, query) {
 function concert(query) {
     //add error handling
     let concertLink = "https://rest.bandsintown.com/artists/" + query + "/events?app_id=codingbootcamp";
-    axios.get(concertLink).then((response) => {
+    axios.get(concertLink).then(response => {
         if (response.data.length != 0) {
             console.log(`
             ${query.toUpperCase()} 
@@ -45,7 +45,7 @@ function concert(query) {
         console.error(error);
     });
 
-}
+};
 
 
 // spotify-this-song
@@ -57,7 +57,28 @@ function concert(query) {
 
 function movie(query) {
 
-}
+    if (query === '') {
+        query = 'Mr. Nobody.';
+    }
+
+
+    axios.get(`http://www.omdbapi.com/?t=${query}&y=&plot=short&apikey=trilogy`).then(response => {
+        if (response.data.Response === 'False') {
+            console.log(response.data.Error)
+        }
+        else {
+            console.log(response)
+            console.log(response.data.Title);
+            console.log(response.data.Year);
+            console.log(response.data.Ratings[0].Value);
+            console.log(response.data.Ratings[1].Value);
+            console.log(response.data.Country);
+            console.log(response.data.Language);
+            console.log(response.data.Plot);
+            console.log(response.data.Actors);
+        }
+    });
+};
 // movie-this
 // * Title of the movie.
 // * Year the movie came out.
