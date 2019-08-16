@@ -31,19 +31,22 @@ function concert(query) {
     //add error handling
     let concertLink = "https://rest.bandsintown.com/artists/" + query + "/events?app_id=codingbootcamp";
     axios.get(concertLink).then((response) => {
-        console.log(`
-        ${query.toUpperCase()} 
-        is playing at: ${response.data[0].venue.name}, ${response.data[0].venue.city}, ${response.data[0].venue.region} 
-        on: ${moment(response.data[0].datetime).format('MM/DD/YYYY')}`);
-        console.log(response.data[0].datetime);
+        if (response.data.length != 0) {
+            console.log(`
+            ${query.toUpperCase()} 
+            is playing at: ${response.data[0].venue.name}, ${response.data[0].venue.city}, ${response.data[0].venue.region} 
+            on: ${moment(response.data[0].datetime).format('MM/DD/YYYY')}`);
+        }
+        else {
+            console.log("No Concert Found, Try Another Artist");
+        }
+
+    }).catch(error => {
+        console.error(error);
     });
 
 }
-// concert-this
-// 
-// Name of the venue
-// Venue location
-// Date of the Event (use moment to format this as "MM/DD/YYYY")
+
 
 // spotify-this-song
 // Artist(s)
@@ -52,6 +55,9 @@ function concert(query) {
 // The album that the song is from
 // If no song is provided then your program will default to "The Sign" by Ace of Base.
 
+function movie(query) {
+
+}
 // movie-this
 // * Title of the movie.
 // * Year the movie came out.
