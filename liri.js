@@ -2,7 +2,8 @@ require("dotenv").config();
 const keys = require('./keys');
 const axios = require('axios');
 const moment = require('moment');
-// const spotify = new Spotify(keys.spotify);
+const Spotify = require('node-spotify-api');
+const spotify = new Spotify(keys.spotify);
 
 const command = process.argv[2];
 const query = process.argv.slice(3).join(" ");
@@ -42,10 +43,11 @@ function concert(query) {
         }
 
     }).catch(error => {
-        console.error(error);
+        console.error(`Oops! there was an error ${error}`);
     });
 
 };
+
 
 
 // spotify-this-song
@@ -67,17 +69,25 @@ function movie(query) {
             console.log(response.data.Error)
         }
         else {
-            console.log(response)
-            console.log(response.data.Title);
-            console.log(response.data.Year);
-            console.log(response.data.Ratings[0].Value);
-            console.log(response.data.Ratings[1].Value);
-            console.log(response.data.Country);
-            console.log(response.data.Language);
-            console.log(response.data.Plot);
-            console.log(response.data.Actors);
+            console.log(response);
+            console.log(`Title: ${response.data.Title}`);
+            console.log(`Year of Release: ${response.data.Year}`);
+            console.log(`IMDB Rating: ${response.data.imdbRating}`);
+
+            //check if rotten tomatoes rating exists
+            if (response.data.Ratings.length > 2) {
+                console.log(`Rotten Tomatoes Rating: ${response.data.Ratings[1].Value}`)
+            }
+            else { console.log("Rotten Tomatoes Rating: N/A") };
+
+            console.log(`Country Produced: ${response.data.Country}`);
+            console.log(`Language: ${response.data.Language}`);
+            console.log(`Plot: ${response.data.Plot}`);
+            console.log(`Actors: ${response.data.Actors}`);
         }
-    });
+    }).catch(error => {
+        console.error(`Oops! there was an error ${error}`);
+    });;
 };
 // movie-this
 // * Title of the movie.
