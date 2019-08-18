@@ -10,9 +10,8 @@ const spotify = new Spotify(keys.spotify);
 const command = process.argv[2];
 const query = process.argv.slice(3).join(" ");
 
-//log user entries into log.txt
+//log user inputs into log.txt
 const dataToAppend = `${moment().format("dddd, MMMM Do YYYY, h:mm:ss a")}: ${command}, ${query}, `
-
 fs.appendFile('./log.txt', dataToAppend, (err) => {
     if (err) { console.error(err) };
 })
@@ -121,7 +120,6 @@ function movie(query) {
             console.log(response.data.Error)
         }
         else {
-            console.log(response);
             console.log(`Title: ${response.data.Title}`);
             console.log(`Year of Release: ${response.data.Year}`);
             console.log(`IMDB Rating: ${response.data.imdbRating}`);
