@@ -10,6 +10,13 @@ const spotify = new Spotify(keys.spotify);
 const command = process.argv[2];
 const query = process.argv.slice(3).join(" ");
 
+//log user entries into log.txt
+const dataToAppend = `${moment().format("dddd, MMMM Do YYYY, h:mm:ss a")}: ${command}, ${query}, `
+
+fs.appendFile('./log.txt', dataToAppend, (err) => {
+    if (err) { console.error(err) };
+})
+
 
 search(command, query);
 
@@ -53,7 +60,7 @@ function concert(query) {
         }
 
     }).catch(error => {
-        console.error(`Oops! there was an error ${error}`);
+        console.error(`Oops! There was an error ${error}`);
     });
 
 };
@@ -83,7 +90,7 @@ function spotifyThisSong(searchTerm) {
             console.log(`Album: ${response.tracks.items[0].album.name}`);
 
         }).catch(error => {
-            console.error(`Oops! there was an error ${error}`);
+            console.error(`Oops! There was an error ${error}`);
         });
     }
 }
@@ -131,7 +138,7 @@ function movie(query) {
             console.log(`Actors: ${response.data.Actors}`);
         }
     }).catch(error => {
-        console.error(`Oops! there was an error ${error}`);
+        console.error(`Oops! There was an error ${error}`);
     });;
 };
 
