@@ -12,7 +12,7 @@ const query = process.argv.slice(3).join(" ");
 
 //log user inputs into log.txt
 const dataToAppend = `${moment().format("dddd, MMMM Do YYYY, h:mm:ss a")}: ${command}, ${query}, `
-fs.appendFile('./log.txt', dataToAppend, (err) => {
+fs.appendFile('./log.txt', dataToAppend + "\n===============\n", (err) => {
     if (err) { console.error(err) };
 })
 
